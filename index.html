@@ -2,932 +2,839 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="DIS HQ">
 <title>Do It Scared HQ</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bricolage+Grotesque:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #0a0a0a;
-    --card: #141414;
-    --card2: #1c1c1c;
-    --border: #282828;
-    --yellow: #FFE135;
-    --orange: #FF5C00;
-    --pink: #FF2D78;
-    --blue: #00C2FF;
-    --green: #00E87A;
-    --text: #F5F5F0;
-    --muted: #666;
-    --muted2: #444;
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Bricolage Grotesque', sans-serif;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  /* Animated background blobs */
-  .bg-blobs {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-    overflow: hidden;
-  }
-
-  .blob {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(120px);
-    opacity: 0.07;
-    animation: blobFloat 12s ease-in-out infinite;
-  }
-
-  .blob1 { width: 600px; height: 600px; background: var(--yellow); top: -200px; left: -200px; animation-delay: 0s; }
-  .blob2 { width: 500px; height: 500px; background: var(--pink); top: 30%; right: -150px; animation-delay: -4s; }
-  .blob3 { width: 400px; height: 400px; background: var(--blue); bottom: -100px; left: 30%; animation-delay: -8s; }
-
-  @keyframes blobFloat {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    33% { transform: translate(30px, -20px) scale(1.05); }
-    66% { transform: translate(-20px, 15px) scale(0.95); }
-  }
-
-  /* Layout */
-  .app {
-    position: relative;
-    z-index: 1;
-    max-width: 780px;
-    margin: 0 auto;
-    padding: 32px 24px 80px;
-  }
-
-  /* Header */
-  .header {
-    margin-bottom: 36px;
-    animation: fadeUp 0.6s ease both;
-  }
-
-  .header-top {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    margin-bottom: 8px;
-  }
-
-  .logo {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 56px;
-    line-height: 0.9;
-    letter-spacing: 2px;
-    background: linear-gradient(135deg, var(--yellow) 0%, var(--orange) 50%, var(--pink) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .logo span { display: block; }
-
-  .date-pill {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 8px 16px;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--muted);
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    white-space: nowrap;
-    margin-top: 8px;
-  }
-
-  .tagline {
-    font-size: 14px;
-    color: var(--muted);
-    font-weight: 400;
-    margin-top: 6px;
-  }
-
-  .tagline strong { color: var(--yellow); font-weight: 700; }
-
-  /* Stats row */
-  .stats {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-    margin-bottom: 28px;
-    animation: fadeUp 0.6s 0.1s ease both;
-  }
-
-  .stat {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 14px 12px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.2s, border-color 0.2s;
-    cursor: default;
-  }
-
-  .stat:hover { transform: translateY(-2px); }
-
-  .stat::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-  }
-
-  .stat.s1::before { background: var(--yellow); }
-  .stat.s2::before { background: var(--orange); }
-  .stat.s3::before { background: var(--green); }
-  .stat.s4::before { background: var(--blue); }
-
-  .stat-val {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 34px;
-    line-height: 1;
-    margin-bottom: 4px;
-  }
-
-  .stat.s1 .stat-val { color: var(--yellow); }
-  .stat.s2 .stat-val { color: var(--orange); }
-  .stat.s3 .stat-val { color: var(--green); }
-  .stat.s4 .stat-val { color: var(--blue); }
-
-  .stat-label {
-    font-size: 10px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    color: var(--muted);
-  }
-
-  /* Section cards */
-  .section {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    margin-bottom: 16px;
-    overflow: hidden;
-    animation: fadeUp 0.6s ease both;
-  }
-
-  .section:nth-child(1) { animation-delay: 0.15s; }
-  .section:nth-child(2) { animation-delay: 0.2s; }
-  .section:nth-child(3) { animation-delay: 0.25s; }
-  .section:nth-child(4) { animation-delay: 0.3s; }
-
-  .section-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 18px 22px 14px;
-    border-bottom: 1px solid var(--border);
-    cursor: pointer;
-    user-select: none;
-  }
-
-  .section-title {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 22px;
-    letter-spacing: 1.5px;
-  }
-
-  .section-icon {
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 15px;
-    flex-shrink: 0;
-  }
-
-  .icon-yellow { background: rgba(255,225,53,0.15); }
-  .icon-orange { background: rgba(255,92,0,0.15); }
-  .icon-pink { background: rgba(255,45,120,0.15); }
-  .icon-blue { background: rgba(0,194,255,0.15); }
-
-  .section-badge {
-    font-family: 'Bricolage Grotesque', sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    padding: 3px 10px;
-    border-radius: 20px;
-    letter-spacing: 0.3px;
-  }
-
-  .badge-yellow { background: rgba(255,225,53,0.15); color: var(--yellow); border: 1px solid rgba(255,225,53,0.2); }
-  .badge-orange { background: rgba(255,92,0,0.15); color: var(--orange); border: 1px solid rgba(255,92,0,0.2); }
-  .badge-pink { background: rgba(255,45,120,0.15); color: var(--pink); border: 1px solid rgba(255,45,120,0.2); }
-  .badge-blue { background: rgba(0,194,255,0.15); color: var(--blue); border: 1px solid rgba(0,194,255,0.2); }
-
-  .section-body { padding: 16px 22px 18px; }
-
-  /* DAILY MISSION */
-  .task-list { list-style: none; }
-
-  .task-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 11px 0;
-    border-bottom: 1px solid var(--border);
-    animation: fadeIn 0.3s ease both;
-  }
-
-  .task-item:last-of-type { border-bottom: none; }
-
-  .task-check {
-    width: 22px;
-    height: 22px;
-    border-radius: 6px;
-    border: 2px solid var(--border);
-    flex-shrink: 0;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-    font-size: 12px;
-    font-weight: 800;
-  }
-
-  .task-check:hover { border-color: var(--yellow); }
-  .task-check.checked { background: var(--yellow); border-color: var(--yellow); color: #000; }
-
-  .task-text {
-    flex: 1;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1.4;
-    transition: color 0.2s, text-decoration 0.2s;
-  }
-
-  .task-text.done { text-decoration: line-through; color: var(--muted); }
-
-  .task-type {
-    font-size: 10px;
-    font-weight: 700;
-    padding: 2px 8px;
-    border-radius: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    flex-shrink: 0;
-  }
-
-  .type-prospect { background: rgba(255,225,53,0.12); color: var(--yellow); }
-  .type-learn { background: rgba(0,194,255,0.12); color: var(--blue); }
-  .type-network { background: rgba(255,92,0,0.12); color: var(--orange); }
-
-  .task-delete {
-    cursor: pointer;
-    color: var(--muted2);
-    font-size: 16px;
-    padding: 2px 4px;
-    border-radius: 4px;
-    transition: color 0.15s;
-    flex-shrink: 0;
-    background: none;
-    border: none;
-  }
-
-  .task-delete:hover { color: var(--pink); }
-
-  .add-task-row {
-    display: flex;
-    gap: 8px;
-    margin-top: 14px;
-  }
-
-  .add-input {
-    flex: 1;
-    background: var(--card2);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 10px 14px;
-    color: var(--text);
-    font-family: 'Bricolage Grotesque', sans-serif;
-    font-size: 13px;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-
-  .add-input:focus { border-color: var(--yellow); }
-  .add-input::placeholder { color: var(--muted2); }
-
-  .type-select {
-    background: var(--card2);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 10px 12px;
-    color: var(--muted);
-    font-family: 'Bricolage Grotesque', sans-serif;
-    font-size: 12px;
-    outline: none;
-    cursor: pointer;
-  }
-
-  .add-btn {
-    background: var(--yellow);
-    color: #000;
-    border: none;
-    border-radius: 10px;
-    padding: 10px 18px;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 16px;
-    letter-spacing: 1px;
-    cursor: pointer;
-    transition: opacity 0.2s, transform 0.15s;
-    flex-shrink: 0;
-  }
-
-  .add-btn:hover { opacity: 0.85; transform: scale(0.98); }
-
-  /* HABIT TRACKER */
-  .habit-grid {
-    width: 100%;
-    border-collapse: collapse;
-  }
-
-  .habit-grid th {
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    color: var(--muted);
-    padding: 0 0 12px;
-    text-align: center;
-  }
-
-  .habit-grid th:first-child { text-align: left; }
-
-  .habit-grid td {
-    padding: 9px 0;
-    text-align: center;
-    border-top: 1px solid var(--border);
-  }
-
-  .habit-grid td:first-child { text-align: left; }
-
-  .habit-name {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text);
-    padding-right: 8px;
-  }
-
-  .h-dot {
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    font-size: 11px;
-    font-weight: 700;
-    transition: all 0.2s;
-    border: 1.5px solid var(--border);
-    color: transparent;
-    margin: auto;
-  }
-
-  .h-dot:hover { border-color: var(--green); transform: scale(1.1); }
-  .h-dot.done { background: var(--green); border-color: var(--green); color: #000; }
-  .h-dot.miss { background: rgba(255,45,120,0.15); border-color: rgba(255,45,120,0.3); color: var(--pink); }
-
-  .day-label {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    color: var(--muted);
-  }
-
-  .day-label.today-label { color: var(--yellow); }
-
-  .streak-num {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 16px;
-    color: var(--green);
-  }
-
-  /* BRAIN DUMP */
-  .dump-entries {
-    margin-bottom: 14px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .dump-entry {
-    background: var(--card2);
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--pink);
-    border-radius: 10px;
-    padding: 12px 14px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 10px;
-    animation: fadeIn 0.3s ease both;
-  }
-
-  .dump-entry-content { flex: 1; }
-
-  .dump-time {
-    font-size: 10px;
-    color: var(--muted2);
-    font-weight: 600;
-    letter-spacing: 0.3px;
-    margin-bottom: 4px;
-    text-transform: uppercase;
-  }
-
-  .dump-text {
-    font-size: 13px;
-    color: #aaa;
-    line-height: 1.5;
-  }
-
-  .dump-delete {
-    cursor: pointer;
-    color: var(--muted2);
-    font-size: 16px;
-    background: none;
-    border: none;
-    padding: 0 2px;
-    transition: color 0.15s;
-    flex-shrink: 0;
-  }
-
-  .dump-delete:hover { color: var(--pink); }
-
-  .dump-input-row {
-    display: flex;
-    gap: 8px;
-  }
-
-  .dump-input {
-    flex: 1;
-    background: var(--card2);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 11px 14px;
-    color: var(--text);
-    font-family: 'Bricolage Grotesque', sans-serif;
-    font-size: 13px;
-    outline: none;
-    resize: none;
-    transition: border-color 0.2s;
-    line-height: 1.4;
-  }
-
-  .dump-input:focus { border-color: var(--pink); }
-  .dump-input::placeholder { color: var(--muted2); }
-
-  .dump-btn {
-    background: var(--pink);
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    padding: 0 18px;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 16px;
-    letter-spacing: 1px;
-    cursor: pointer;
-    transition: opacity 0.2s;
-    flex-shrink: 0;
-  }
-
-  .dump-btn:hover { opacity: 0.85; }
-
-  /* PIPELINE */
-  .pipeline-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
-
-  .pipeline-card {
-    background: var(--card2);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 13px 16px;
-    display: grid;
-    grid-template-columns: 36px 1fr auto auto;
-    align-items: center;
-    gap: 12px;
-    transition: border-color 0.2s;
-    animation: fadeIn 0.3s ease both;
-  }
-
-  .pipeline-card:hover { border-color: #3a3a3a; }
-
-  .p-avatar {
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    font-weight: 800;
-    flex-shrink: 0;
-    color: #000;
-  }
-
-  .p-info { min-width: 0; }
-
-  .p-name {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .p-meta {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 3px;
-  }
-
-  .p-rel {
-    font-size: 10px;
-    font-weight: 700;
-    padding: 1px 7px;
-    border-radius: 6px;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-  }
-
-  .rel-friend { background: rgba(0,194,255,0.12); color: var(--blue); }
-  .rel-family { background: rgba(255,45,120,0.12); color: var(--pink); }
-  .rel-cowork { background: rgba(255,225,53,0.12); color: var(--yellow); }
-  .rel-gym { background: rgba(0,232,122,0.12); color: var(--green); }
-  .rel-other { background: rgba(255,92,0,0.12); color: var(--orange); }
-
-  .p-last {
-    font-size: 11px;
-    color: var(--muted);
-  }
-
-  .p-last.overdue { color: var(--pink); font-weight: 600; }
-
-  .p-stars {
-    font-size: 12px;
-    letter-spacing: 1px;
-    white-space: nowrap;
-  }
-
-  .p-next {
-    font-size: 11px;
-    color: var(--orange);
-    font-weight: 600;
-    white-space: nowrap;
-    text-align: right;
-  }
-
-  .p-actions {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 4px;
-  }
-
-  .p-del {
-    background: none;
-    border: none;
-    color: var(--muted2);
-    cursor: pointer;
-    font-size: 14px;
-    padding: 0;
-    transition: color 0.15s;
-  }
-
-  .p-del:hover { color: var(--pink); }
-
-  /* Pipeline add form */
-  .pipeline-form {
-    background: var(--card2);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 14px 16px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-  }
-
-  .p-input, .p-select {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 9px 12px;
-    color: var(--text);
-    font-family: 'Bricolage Grotesque', sans-serif;
-    font-size: 12px;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-
-  .p-input:focus { border-color: var(--blue); }
-  .p-input::placeholder { color: var(--muted2); }
-
-  .p-select { color: var(--muted); cursor: pointer; }
-
-  .p-add-btn {
-    grid-column: 1 / -1;
-    background: var(--blue);
-    color: #000;
-    border: none;
-    border-radius: 8px;
-    padding: 10px;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 16px;
-    letter-spacing: 1px;
-    cursor: pointer;
-    transition: opacity 0.2s;
-    font-weight: 400;
-  }
-
-  .p-add-btn:hover { opacity: 0.85; }
-
-  /* Empty states */
-  .empty {
-    text-align: center;
-    padding: 20px;
-    color: var(--muted2);
-    font-size: 13px;
-    font-style: italic;
-  }
-
-  /* Animations */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(16px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-
-  .task-type-edit {
-    font-size: 10px;
-    font-weight: 700;
-    padding: 2px 8px;
-    border-radius: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    flex-shrink: 0;
-    border: none;
-    cursor: pointer;
-    font-family: 'Bricolage Grotesque', sans-serif;
-    background: rgba(255,225,53,0.12);
-    color: var(--yellow);
-  }
-
-  .task-text[contenteditable="true"]:focus {
-    outline: none;
-    border-bottom: 1px dashed var(--yellow);
-  }
-
-  .habit-name[contenteditable="true"]:focus {
-    outline: none;
-    border-bottom: 1px dashed var(--orange);
-  }
-  @media (max-width: 600px) {
-    .app { padding: 20px 14px 60px; }
-    .logo { font-size: 40px; }
-    .stats { grid-template-columns: repeat(2, 1fr); }
-    .pipeline-card { grid-template-columns: 32px 1fr auto; }
-    .p-actions { display: none; }
-    .pipeline-form { grid-template-columns: 1fr; }
-  }
+/* ── FONTS (system stack for speed) ── */
+:root {
+  --bg: #0f0f0f;
+  --surface: #1a1a1a;
+  --surface2: #222;
+  --border: #2e2e2e;
+  --accent: #e8ff47;
+  --orange: #ff6b35;
+  --pink: #ff2d6b;
+  --blue: #38bdf8;
+  --text: #f0f0f0;
+  --muted: #888;
+  --muted2: #555;
+  --green: #4ade80;
+  --red: #f87171;
+  --font: -apple-system, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+  --mono: 'SF Mono', 'Courier New', monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  overflow-x: hidden;
+}
+
+/* ── HEADER ── */
+.header {
+  padding: 52px 20px 0;
+  margin-bottom: 24px;
+}
+
+.header-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.logo {
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  line-height: 1;
+  background: linear-gradient(135deg, var(--accent), var(--orange));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.date-pill {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 6px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  margin-top: 4px;
+}
+
+.tagline {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 400;
+  margin-top: 4px;
+}
+
+.tagline strong { color: var(--accent); font-weight: 600; }
+
+/* ── STATS ROW ── */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  padding: 0 20px;
+  margin-bottom: 20px;
+}
+
+.stat {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 6px 10px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+}
+
+.stat.s1::before { background: var(--accent); }
+.stat.s2::before { background: var(--orange); }
+.stat.s3::before { background: var(--green); }
+.stat.s4::before { background: var(--blue); }
+
+.stat-val {
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 3px;
+}
+
+.stat.s1 .stat-val { color: var(--accent); }
+.stat.s2 .stat-val { color: var(--orange); }
+.stat.s3 .stat-val { color: var(--green); }
+.stat.s4 .stat-val { color: var(--blue); font-size: 12px; font-weight: 700; padding-top: 4px; }
+
+.stat-label {
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--muted);
+}
+
+.streak-btns {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 2px;
+}
+
+.streak-btn {
+  background: none;
+  border: none;
+  color: var(--muted2);
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 2px 6px;
+  line-height: 1;
+  border-radius: 4px;
+  transition: color 0.15s;
+}
+
+.streak-btn.plus { color: var(--accent); }
+.streak-btn:active { opacity: 0.6; }
+
+/* ── DIVIDER ── */
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 0 20px 20px;
+}
+
+/* ── SECTION CARDS ── */
+.section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  margin: 0 16px 14px;
+  overflow: hidden;
+}
+
+.section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px 12px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  user-select: none;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+.section-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+.icon-yellow { background: rgba(232,255,71,0.15); }
+.icon-orange { background: rgba(255,107,53,0.15); }
+.icon-pink   { background: rgba(255,45,107,0.15); }
+.icon-blue   { background: rgba(56,189,248,0.15); }
+
+.section-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 20px;
+  letter-spacing: 0.3px;
+}
+
+.badge-yellow { background: rgba(232,255,71,0.12); color: var(--accent); border: 1px solid rgba(232,255,71,0.2); }
+.badge-orange { background: rgba(255,107,53,0.12); color: var(--orange); border: 1px solid rgba(255,107,53,0.2); }
+.badge-pink   { background: rgba(255,45,107,0.12); color: var(--pink); border: 1px solid rgba(255,45,107,0.2); }
+.badge-blue   { background: rgba(56,189,248,0.12); color: var(--blue); border: 1px solid rgba(56,189,248,0.2); }
+
+.section-body { padding: 12px 16px 16px; }
+
+/* ── TASKS ── */
+.task-list { list-style: none; margin-bottom: 12px; }
+
+.task-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.task-item:last-child { border-bottom: none; }
+
+.task-check {
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  border: 2px solid var(--border);
+  flex-shrink: 0;
+  margin-top: 1px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 800;
+  transition: all 0.15s;
+  color: #000;
+}
+
+.task-check.checked { background: var(--accent); border-color: var(--accent); }
+
+.task-text {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--text);
+  min-width: 0;
+  word-break: break-word;
+}
+
+.task-text.done { text-decoration: line-through; color: var(--muted2); }
+
+.task-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.task-type {
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.type-prospect { background: rgba(232,255,71,0.1); color: var(--accent); }
+.type-learn    { background: rgba(56,189,248,0.1); color: var(--blue); }
+.type-network  { background: rgba(255,107,53,0.1); color: var(--orange); }
+
+.task-del {
+  background: none;
+  border: none;
+  color: var(--muted2);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 0 2px;
+  line-height: 1;
+}
+
+.task-del:active { color: var(--red); }
+
+.add-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.add-input {
+  flex: 1;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 9px 12px;
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 13px;
+  outline: none;
+  min-width: 0;
+}
+
+.add-input:focus { border-color: var(--accent); }
+.add-input::placeholder { color: var(--muted2); }
+
+.type-sel {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 9px 8px;
+  color: var(--muted);
+  font-family: var(--font);
+  font-size: 11px;
+  outline: none;
+  flex-shrink: 0;
+  width: 80px;
+}
+
+.add-btn {
+  background: var(--accent);
+  color: #000;
+  border: none;
+  border-radius: 9px;
+  padding: 9px 14px;
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.add-btn:active { opacity: 0.8; }
+
+/* ── HABIT TABLE ── */
+.habit-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin-bottom: 12px; }
+
+.habit-grid {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 300px;
+}
+
+.habit-grid th {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--muted);
+  padding: 0 0 10px;
+  text-align: center;
+}
+
+.habit-grid th:first-child { text-align: left; }
+
+.habit-grid td {
+  padding: 8px 0;
+  text-align: center;
+  border-top: 1px solid var(--border);
+}
+
+.habit-grid td:first-child { text-align: left; }
+
+.habit-name-wrap {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.habit-name {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text);
+  outline: none;
+  min-width: 60px;
+}
+
+.habit-name:focus { border-bottom: 1px dashed var(--orange); }
+
+.h-del {
+  background: none;
+  border: none;
+  color: var(--muted2);
+  font-size: 13px;
+  cursor: pointer;
+  padding: 0 2px;
+  flex-shrink: 0;
+}
+
+.h-dot {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: 800;
+  border: 1.5px solid var(--border);
+  color: transparent;
+  transition: all 0.15s;
+}
+
+.h-dot:active { transform: scale(0.9); }
+.h-dot.done { background: var(--green); border-color: var(--green); color: #000; }
+.h-dot.miss { background: rgba(248,113,113,0.15); border-color: rgba(248,113,113,0.3); color: var(--red); }
+
+.day-label { font-size: 9px; font-weight: 700; color: var(--muted); }
+.day-label.today-lbl { color: var(--accent); }
+
+.streak-num { font-size: 14px; font-weight: 800; color: var(--green); }
+
+.habit-add-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.hab-add-btn {
+  background: var(--orange);
+  color: #fff;
+  border: none;
+  border-radius: 9px;
+  padding: 9px 14px;
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.hab-add-btn:active { opacity: 0.8; }
+
+/* ── BRAIN DUMP ── */
+.dump-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+
+.dump-entry {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--pink);
+  border-radius: 9px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.dump-content { flex: 1; }
+.dump-time { font-size: 10px; color: var(--muted2); font-weight: 600; text-transform: uppercase; margin-bottom: 3px; }
+.dump-text { font-size: 13px; color: #aaa; line-height: 1.4; }
+
+.dump-del {
+  background: none;
+  border: none;
+  color: var(--muted2);
+  font-size: 16px;
+  cursor: pointer;
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.dump-row { display: flex; gap: 8px; }
+
+.dump-input {
+  flex: 1;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 9px 12px;
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 13px;
+  outline: none;
+  resize: none;
+  line-height: 1.4;
+}
+
+.dump-input:focus { border-color: var(--pink); }
+.dump-input::placeholder { color: var(--muted2); }
+
+.dump-btn {
+  background: var(--pink);
+  color: #fff;
+  border: none;
+  border-radius: 9px;
+  padding: 0 16px;
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.dump-btn:active { opacity: 0.8; }
+
+/* ── PIPELINE ── */
+.pipeline-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+
+.p-card {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 11px 13px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.p-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 800;
+  color: #000;
+  flex-shrink: 0;
+}
+
+.p-info { flex: 1; min-width: 0; }
+.p-name { font-size: 13px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.p-meta { display: flex; align-items: center; gap: 6px; margin-top: 2px; flex-wrap: wrap; }
+
+.p-rel {
+  font-size: 9px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 5px;
+  text-transform: uppercase;
+}
+
+.rel-friend { background: rgba(56,189,248,0.12); color: var(--blue); }
+.rel-family { background: rgba(255,45,107,0.12); color: var(--pink); }
+.rel-cowork { background: rgba(232,255,71,0.12); color: var(--accent); }
+.rel-gym    { background: rgba(74,222,128,0.12); color: var(--green); }
+.rel-other  { background: rgba(255,107,53,0.12); color: var(--orange); }
+
+.p-last { font-size: 10px; color: var(--muted); }
+.p-last.overdue { color: var(--red); font-weight: 600; }
+
+.p-right { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; flex-shrink: 0; }
+.p-stars { font-size: 10px; }
+.p-next { font-size: 10px; color: var(--orange); font-weight: 600; text-align: right; max-width: 90px; word-break: break-word; }
+
+.p-del {
+  background: none;
+  border: none;
+  color: var(--muted2);
+  font-size: 14px;
+  cursor: pointer;
+  margin-top: 2px;
+}
+
+.p-form {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.p-input, .p-sel {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 10px;
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 12px;
+  outline: none;
+}
+
+.p-input:focus { border-color: var(--blue); }
+.p-input::placeholder { color: var(--muted2); }
+.p-sel { color: var(--muted); cursor: pointer; }
+
+.p-add-btn {
+  grid-column: 1 / -1;
+  background: var(--blue);
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.p-add-btn:active { opacity: 0.8; }
+
+/* ── EMPTY STATES ── */
+.empty {
+  text-align: center;
+  padding: 16px;
+  color: var(--muted2);
+  font-size: 13px;
+  font-style: italic;
+}
+
+/* ── BOTTOM SPACER ── */
+.bottom-space { height: 40px; }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.header  { animation: fadeUp 0.4s ease both; }
+.stats   { animation: fadeUp 0.4s 0.05s ease both; }
+.section { animation: fadeUp 0.4s 0.1s ease both; }
 </style>
 </head>
 <body>
 
-<div class="bg-blobs">
-  <div class="blob blob1"></div>
-  <div class="blob blob2"></div>
-  <div class="blob blob3"></div>
+<!-- HEADER -->
+<div class="header">
+  <div class="header-row">
+    <div class="logo">🔥 Do It Scared HQ</div>
+    <div class="date-pill" id="datePill"></div>
+  </div>
+  <div class="tagline">Your window is <strong>3:30 – 5:00 PM</strong> · Make it count.</div>
 </div>
 
-<div class="app">
-
-  <!-- Header -->
-  <div class="header">
-    <div class="header-top">
-      <div class="logo">
-        <span>Do It</span>
-        <span>Scared</span>
-        <span>HQ</span>
-      </div>
-      <div class="date-pill" id="datePill">Loading...</div>
-    </div>
-    <div class="tagline">Your window is <strong>3:30 – 5:00 PM</strong> · Make it count.</div>
-  </div>
-
-  <!-- Stats -->
-  <div class="stats">
-    <div class="stat s1">
+<!-- STATS -->
+<div class="stats">
+  <div class="stat s1">
+    <div class="streak-btns">
+      <button class="streak-btn" onclick="adjustStreak(-1)">−</button>
       <div class="stat-val" id="statStreak">0</div>
-      <div class="stat-label">🔥 Streak</div>
+      <button class="streak-btn plus" onclick="adjustStreak(1)">+</button>
     </div>
-    <div class="stat s2">
-      <div class="stat-val" id="statPipeline">0</div>
-      <div class="stat-label">📞 Pipeline</div>
+    <div class="stat-label">🔥 Streak</div>
+  </div>
+  <div class="stat s2">
+    <div class="stat-val" id="statPipeline">0</div>
+    <div class="stat-label">📞 Pipeline</div>
+  </div>
+  <div class="stat s3">
+    <div class="stat-val" id="statTasks">0</div>
+    <div class="stat-label">✅ Done</div>
+  </div>
+  <div class="stat s4">
+    <div class="stat-val" id="statBook" contenteditable="true" onblur="editBook(this.textContent)">Atomic Habits</div>
+    <div class="stat-label">📖 Reading</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SECTION 1: DAILY MISSION -->
+<div class="section">
+  <div class="section-head" onclick="toggleSection('mission')">
+    <div class="section-title">
+      <div class="section-icon icon-yellow">⚡</div>
+      Daily Mission
     </div>
-    <div class="stat s3">
-      <div class="stat-val" id="statTasks">0</div>
-      <div class="stat-label">✅ Done Today</div>
-    </div>
-    <div class="stat s4">
-      <div class="stat-val" id="statBook" style="font-size:13px;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;padding-top:4px" contenteditable="true" onblur="editBook(this.textContent)">Atomic Habits</div>
-      <div class="stat-label">📖 Reading Now</div>
+    <span class="section-badge badge-yellow" id="missionBadge">0 / 0</span>
+  </div>
+  <div class="section-body" id="mission">
+    <ul class="task-list" id="taskList"></ul>
+    <div class="add-row">
+      <input class="add-input" id="taskInput" placeholder="Add a task..." onkeydown="if(event.key==='Enter'){this.blur();addTask();}">
+      <select class="type-sel" id="taskType">
+        <option value="prospect">Prospect</option>
+        <option value="learn">Learn</option>
+        <option value="network">Network</option>
+      </select>
+      <button class="add-btn" onclick="addTask()">ADD</button>
     </div>
   </div>
+</div>
 
-  <!-- Section 1: Daily Mission -->
-  <div class="section" style="animation-delay:0.15s">
-    <div class="section-head" onclick="toggleSection('mission')">
-      <div class="section-title">
-        <div class="section-icon icon-yellow">⚡</div>
-        Daily Mission
-      </div>
-      <span class="section-badge badge-yellow" id="missionBadge">0 / 0</span>
+<!-- SECTION 2: HABIT TRACKER -->
+<div class="section">
+  <div class="section-head" onclick="toggleSection('habits')">
+    <div class="section-title">
+      <div class="section-icon icon-orange">📊</div>
+      Habit Tracker
     </div>
-    <div class="section-body" id="mission">
-      <ul class="task-list" id="taskList"></ul>
-      <div class="add-task-row">
-        <input class="add-input" id="taskInput" placeholder="Add a task for today..." onkeydown="if(event.key==='Enter') addTask()">
-        <select class="type-select" id="taskType">
-          <option value="prospect">Prospect</option>
-          <option value="learn">Learn</option>
-          <option value="network">Network</option>
-        </select>
-        <button class="add-btn" onclick="addTask()">ADD</button>
-      </div>
-    </div>
+    <span class="section-badge badge-orange">This Week</span>
   </div>
-
-  <!-- Section 2: Habit Tracker -->
-  <div class="section" style="animation-delay:0.2s">
-    <div class="section-head" onclick="toggleSection('habits')">
-      <div class="section-title">
-        <div class="section-icon icon-orange">📊</div>
-        Habit Tracker
-      </div>
-      <span class="section-badge badge-orange" id="habitBadge">This Week</span>
-    </div>
-    <div class="section-body" id="habits">
+  <div class="section-body" id="habits">
+    <div class="habit-wrap">
       <table class="habit-grid">
         <thead>
           <tr>
             <th>Habit</th>
-            <th id="d0h"></th>
-            <th id="d1h"></th>
-            <th id="d2h"></th>
-            <th id="d3h"></th>
-            <th id="d4h"></th>
-            <th id="d5h"></th>
-            <th id="d6h"></th>
+            <th id="d0h"></th><th id="d1h"></th><th id="d2h"></th>
+            <th id="d3h"></th><th id="d4h"></th><th id="d5h"></th><th id="d6h"></th>
             <th>🔥</th>
           </tr>
         </thead>
         <tbody id="habitBody"></tbody>
       </table>
-      <div class="add-task-row" style="margin-top:14px">
-        <input class="add-input" id="habitInput" placeholder="Add a new habit... (e.g. 💧 Drink water)" onkeydown="if(event.key==='Enter') addHabit()">
-        <button class="add-btn" style="background:var(--orange)" onclick="addHabit()">ADD</button>
-      </div>
+    </div>
+    <div class="habit-add-row">
+      <input class="add-input" id="habitInput" placeholder="Add a habit..." onkeydown="if(event.key==='Enter'){this.blur();addHabit();}">
+      <button class="hab-add-btn" onclick="addHabit()">ADD</button>
     </div>
   </div>
-
-  <!-- Section 3: Brain Dump -->
-  <div class="section" style="animation-delay:0.25s">
-    <div class="section-head" onclick="toggleSection('brain')">
-      <div class="section-title">
-        <div class="section-icon icon-pink">🧠</div>
-        Brain Dump
-      </div>
-      <span class="section-badge badge-pink">Clear Your Head</span>
-    </div>
-    <div class="section-body" id="brain">
-      <div class="dump-entries" id="dumpList"></div>
-      <div class="dump-input-row">
-        <textarea class="dump-input" id="dumpInput" rows="2" placeholder="What's spinning in your head? Get it out here..."></textarea>
-        <button class="dump-btn" onclick="addDump()">DUMP</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Section 4: Pipeline -->
-  <div class="section" style="animation-delay:0.3s">
-    <div class="section-head" onclick="toggleSection('pipeline')">
-      <div class="section-title">
-        <div class="section-icon icon-blue">📞</div>
-        Pipeline
-      </div>
-      <span class="section-badge badge-blue" id="pipelineBadge">0 Contacts</span>
-    </div>
-    <div class="section-body" id="pipeline">
-      <div class="pipeline-list" id="pipelineList"></div>
-      <div class="pipeline-form">
-        <input class="p-input" id="pName" placeholder="Full name">
-        <select class="p-select" id="pRel">
-          <option value="friend">Friend</option>
-          <option value="family">Family</option>
-          <option value="cowork">Coworker</option>
-          <option value="gym">Gym</option>
-          <option value="other">Other</option>
-        </select>
-        <input class="p-input" id="pNext" placeholder="Next step (e.g. Call this week)">
-        <select class="p-select" id="pStars">
-          <option value="3">⭐⭐⭐ High</option>
-          <option value="2">⭐⭐ Medium</option>
-          <option value="1">⭐ Low</option>
-        </select>
-        <button class="p-add-btn" onclick="addContact()">ADD CONTACT</button>
-      </div>
-    </div>
-  </div>
-
 </div>
 
+<!-- SECTION 3: BRAIN DUMP -->
+<div class="section">
+  <div class="section-head" onclick="toggleSection('brain')">
+    <div class="section-title">
+      <div class="section-icon icon-pink">🧠</div>
+      Brain Dump
+    </div>
+    <span class="section-badge badge-pink">Clear Your Head</span>
+  </div>
+  <div class="section-body" id="brain">
+    <div class="dump-list" id="dumpList"></div>
+    <div class="dump-row">
+      <textarea class="dump-input" id="dumpInput" rows="2" placeholder="What's spinning in your head? Get it out here..."></textarea>
+      <button class="dump-btn" onclick="addDump()">DUMP</button>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 4: PIPELINE -->
+<div class="section">
+  <div class="section-head" onclick="toggleSection('pipeline')">
+    <div class="section-title">
+      <div class="section-icon icon-blue">📞</div>
+      Pipeline
+    </div>
+    <span class="section-badge badge-blue" id="pipelineBadge">0 Contacts</span>
+  </div>
+  <div class="section-body" id="pipeline">
+    <div class="pipeline-list" id="pipelineList"></div>
+    <div class="p-form">
+      <input class="p-input" id="pName" placeholder="Full name">
+      <select class="p-sel" id="pRel">
+        <option value="friend">Friend</option>
+        <option value="family">Family</option>
+        <option value="cowork">Coworker</option>
+        <option value="gym">Gym</option>
+        <option value="other">Other</option>
+      </select>
+      <input class="p-input" id="pNext" placeholder="Next step">
+      <select class="p-sel" id="pStars">
+        <option value="3">⭐⭐⭐ High</option>
+        <option value="2">⭐⭐ Medium</option>
+        <option value="1">⭐ Low</option>
+      </select>
+      <button class="p-add-btn" onclick="addContact()">ADD CONTACT</button>
+    </div>
+  </div>
+</div>
+
+<div class="bottom-space"></div>
+
 <script>
-// ─── State ───────────────────────────────────────────────
-// Clear old cached state so fresh defaults load cleanly
-const CURRENT_VERSION = 3;
-const saved = JSON.parse(localStorage.getItem('dis_state') || 'null');
-if (saved && saved.version !== CURRENT_VERSION) {
-  localStorage.removeItem('dis_state');
-}
+// ── STATE ──────────────────────────────────────────
+const VER = 5;
+const raw = localStorage.getItem('dis_v5');
+let state = raw ? JSON.parse(raw) : null;
 
-let state = JSON.parse(localStorage.getItem('dis_state') || 'null') || {
-  version: CURRENT_VERSION,
-  tasks: [
-    { id: 1, text: 'Send 2 genuine check-in texts to people I already know', type: 'prospect', done: false },
-    { id: 2, text: 'Listen to 10 min of a real estate podcast at the gym', type: 'learn', done: false },
-    { id: 3, text: 'Post one piece of real estate content on social media', type: 'network', done: false }
-  ],
-  habits: {
-    rows: [
-      { id: 'read', name: '📖 Read' },
-      { id: 'prospect', name: '📞 Prospected today' },
-      { id: 'gym', name: '💪 Gym' },
-      { id: 'nophone', name: '🌅 No phone first 30min' },
-      { id: 'missions', name: '🎯 Completed my 3 missions' }
+if (!state) {
+  state = {
+    ver: VER,
+    tasks: [
+      { id: 1, text: 'Send 2 genuine check-in texts to people I already know', type: 'prospect', done: false },
+      { id: 2, text: 'Listen to 10 min of a real estate podcast at the gym', type: 'learn', done: false },
+      { id: 3, text: 'Post one piece of real estate content on social media', type: 'network', done: false }
     ],
-    log: {}
-  },
-  dumps: [],
-  contacts: [],
-  streak: 0,
-  books: 1,
-  currentBook: 'Atomic Habits',
-  lastDate: null
-};
-
-function save() {
-  localStorage.setItem('dis_state', JSON.stringify(state));
+    habits: {
+      rows: [
+        { id: 'read',     name: '📖 Read' },
+        { id: 'prospect', name: '📞 Prospected today' },
+        { id: 'gym',      name: '💪 Gym' },
+        { id: 'nophone',  name: '🌅 No phone first 30min' },
+        { id: 'missions', name: '🎯 Completed my 3 missions' }
+      ],
+      log: {}
+    },
+    dumps: [],
+    contacts: [],
+    streak: 0,
+    book: 'Atomic Habits'
+  };
+  save();
 }
 
-// ─── Date ────────────────────────────────────────────────
-const DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+function save() { localStorage.setItem('dis_v5', JSON.stringify(state)); }
+
+// ── DATE ──────────────────────────────────────────
+const DAYS   = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
-function today() {
-  const d = new Date();
+function fmtDate(d) {
+  return `${DAYS[d.getDay()]} ${MONTHS[d.getMonth()]} ${d.getDate()}`;
+}
+
+function dKey(d) {
   return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
 }
 
-function formatDate(d) {
-  return `${DAYS[d.getDay()]} ${MONTHS[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
-}
+document.getElementById('datePill').textContent = fmtDate(new Date());
 
-document.getElementById('datePill').textContent = formatDate(new Date());
-
-// ─── Section toggle ───────────────────────────────────────
+// ── TOGGLE ─────────────────────────────────────────
 function toggleSection(id) {
   const el = document.getElementById(id);
   el.style.display = el.style.display === 'none' ? '' : 'none';
 }
 
-// ─── Tasks ───────────────────────────────────────────────
+// ── TASKS ─────────────────────────────────────────
 function renderTasks() {
   const list = document.getElementById('taskList');
   const done = state.tasks.filter(t => t.done).length;
@@ -942,13 +849,14 @@ function renderTasks() {
   list.innerHTML = state.tasks.map(t => `
     <li class="task-item">
       <div class="task-check ${t.done ? 'checked' : ''}" onclick="toggleTask(${t.id})">${t.done ? '✓' : ''}</div>
-      <div class="task-text ${t.done ? 'done' : ''}" contenteditable="true" onblur="editTask(${t.id}, this.textContent)" spellcheck="false">${t.text}</div>
-      <select class="task-type-edit type-${t.type}" onchange="changeTaskType(${t.id}, this.value)">
-        <option value="prospect" ${t.type==='prospect'?'selected':''}>prospect</option>
-        <option value="learn" ${t.type==='learn'?'selected':''}>learn</option>
-        <option value="network" ${t.type==='network'?'selected':''}>network</option>
-      </select>
-      <button class="task-delete" onclick="deleteTask(${t.id})">×</button>
+      <div class="task-text ${t.done ? 'done' : ''}"
+           contenteditable="true"
+           onblur="editTask(${t.id}, this.textContent)"
+           spellcheck="false">${t.text}</div>
+      <div class="task-right">
+        <span class="task-type type-${t.type}">${t.type}</span>
+        <button class="task-del" onclick="deleteTask(${t.id})">×</button>
+      </div>
     </li>
   `).join('');
 }
@@ -958,15 +866,10 @@ function toggleTask(id) {
   if (t) { t.done = !t.done; save(); renderTasks(); }
 }
 
-function editTask(id, newText) {
+function editTask(id, txt) {
   const t = state.tasks.find(t => t.id === id);
-  const trimmed = newText.trim();
-  if (t && trimmed) { t.text = trimmed; save(); }
-}
-
-function changeTaskType(id, newType) {
-  const t = state.tasks.find(t => t.id === id);
-  if (t) { t.type = newType; save(); renderTasks(); }
+  const v = txt.trim();
+  if (t && v) { t.text = v; save(); }
 }
 
 function deleteTask(id) {
@@ -975,79 +878,66 @@ function deleteTask(id) {
 }
 
 function addTask() {
-  const input = document.getElementById('taskInput');
-  const text = input.value.trim();
-  if (!text) return;
-  state.tasks.push({ id: Date.now(), text, type: document.getElementById('taskType').value, done: false });
-  input.value = '';
+  const inp = document.getElementById('taskInput');
+  const txt = inp.value.trim();
+  if (!txt) return;
+  state.tasks.push({ id: Date.now(), text: txt, type: document.getElementById('taskType').value, done: false });
+  inp.value = '';
   save(); renderTasks();
 }
 
-// ─── Habits ──────────────────────────────────────────────
-function getWeekDates() {
+// ── HABITS ────────────────────────────────────────
+function getWeek() {
   const today = new Date();
   const day = today.getDay();
-  const dates = [];
-  for (let i = 0; i < 7; i++) {
+  return Array.from({ length: 7 }, (_, i) => {
     const d = new Date(today);
     d.setDate(today.getDate() - day + i);
-    dates.push(d);
-  }
-  return dates;
-}
-
-function dateKey(d) {
-  return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
+    return d;
+  });
 }
 
 function renderHabits() {
-  const dates = getWeekDates();
-  const todayKey = dateKey(new Date());
+  const dates = getWeek();
+  const todayKey = dKey(new Date());
   const todayIdx = new Date().getDay();
 
-  // Headers
   dates.forEach((d, i) => {
     const el = document.getElementById(`d${i}h`);
-    el.innerHTML = `<div class="day-label ${dateKey(d) === todayKey ? 'today-label' : ''}">${DAYS[d.getDay()].slice(0,2)}</div>`;
+    const isToday = dKey(d) === todayKey;
+    el.innerHTML = `<div class="day-label ${isToday ? 'today-lbl' : ''}">${DAYS[d.getDay()].slice(0,2)}</div>`;
   });
 
-  // Rows
   const tbody = document.getElementById('habitBody');
   tbody.innerHTML = state.habits.rows.map(row => {
     const cells = dates.map((d, i) => {
-      const key = `${row.id}_${dateKey(d)}`;
+      const key = `${row.id}_${dKey(d)}`;
       const val = state.habits.log[key];
-      const isToday = dateKey(d) === todayKey;
-      const isFuture = i > todayIdx;
-      if (isFuture) return `<td><div class="h-dot" style="opacity:0.2; cursor:default"></div></td>`;
-      return `<td><div class="h-dot ${val === 'done' ? 'done' : val === 'miss' ? 'miss' : ''}" onclick="cycleHabit('${row.id}', '${dateKey(d)}')">${val === 'done' ? '✓' : val === 'miss' ? '✗' : ''}</div></td>`;
+      if (i > todayIdx) return `<td><div class="h-dot" style="opacity:0.15;cursor:default"></div></td>`;
+      return `<td><div class="h-dot ${val === 'done' ? 'done' : val === 'miss' ? 'miss' : ''}" onclick="cycleHabit('${row.id}','${dKey(d)}')">${val === 'done' ? '✓' : val === 'miss' ? '✗' : ''}</div></td>`;
     }).join('');
 
-    // Calculate streak
     let streak = 0;
     for (let i = todayIdx; i >= 0; i--) {
-      const key = `${row.id}_${dateKey(dates[i])}`;
-      if (state.habits.log[key] === 'done') streak++;
+      if (state.habits.log[`${row.id}_${dKey(dates[i])}`] === 'done') streak++;
       else break;
     }
 
-    return `
-      <tr>
-        <td>
-          <div style="display:flex;align-items:center;gap:6px">
-            <div class="habit-name" contenteditable="true" onblur="editHabit('${row.id}', this.textContent)" spellcheck="false">${row.name}</div>
-            <button class="task-delete" onclick="deleteHabit('${row.id}')" style="font-size:14px;color:var(--muted2)">×</button>
-          </div>
-        </td>
-        ${cells}
-        <td><span class="streak-num">${streak}</span></td>
-      </tr>
-    `;
+    return `<tr>
+      <td>
+        <div class="habit-name-wrap">
+          <div class="habit-name" contenteditable="true" onblur="editHabit('${row.id}',this.textContent)" spellcheck="false">${row.name}</div>
+          <button class="h-del" onclick="deleteHabit('${row.id}')">×</button>
+        </div>
+      </td>
+      ${cells}
+      <td><span class="streak-num">${streak}</span></td>
+    </tr>`;
   }).join('');
 }
 
-function cycleHabit(habitId, dateStr) {
-  const key = `${habitId}_${dateStr}`;
+function cycleHabit(id, dateStr) {
+  const key = `${id}_${dateStr}`;
   const cur = state.habits.log[key];
   if (!cur) state.habits.log[key] = 'done';
   else if (cur === 'done') state.habits.log[key] = 'miss';
@@ -1055,10 +945,10 @@ function cycleHabit(habitId, dateStr) {
   save(); renderHabits();
 }
 
-function editHabit(id, newName) {
+function editHabit(id, name) {
   const h = state.habits.rows.find(r => r.id === id);
-  const trimmed = newName.trim();
-  if (h && trimmed) { h.name = trimmed; save(); }
+  const v = name.trim();
+  if (h && v) { h.name = v; save(); }
 }
 
 function deleteHabit(id) {
@@ -1067,41 +957,39 @@ function deleteHabit(id) {
 }
 
 function addHabit() {
-  const input = document.getElementById('habitInput');
-  const name = input.value.trim();
+  const inp = document.getElementById('habitInput');
+  const name = inp.value.trim();
   if (!name) return;
-  const id = 'habit_' + Date.now();
-  state.habits.rows.push({ id, name });
-  input.value = '';
+  state.habits.rows.push({ id: 'h_' + Date.now(), name });
+  inp.value = '';
   save(); renderHabits();
 }
 
-// ─── Brain Dump ───────────────────────────────────────────
+// ── BRAIN DUMP ────────────────────────────────────
 function renderDumps() {
   const list = document.getElementById('dumpList');
   if (!state.dumps.length) {
-    list.innerHTML = '<div class="empty">Nothing dumped yet — your head is clear 🧠</div>';
+    list.innerHTML = '<div class="empty">Nothing here yet — clear your head 🧠</div>';
     return;
   }
   list.innerHTML = state.dumps.map(d => `
     <div class="dump-entry">
-      <div class="dump-entry-content">
+      <div class="dump-content">
         <div class="dump-time">${d.time}</div>
         <div class="dump-text">${d.text}</div>
       </div>
-      <button class="dump-delete" onclick="deleteDump(${d.id})">×</button>
+      <button class="dump-del" onclick="deleteDump(${d.id})">×</button>
     </div>
   `).join('');
 }
 
 function addDump() {
-  const input = document.getElementById('dumpInput');
-  const text = input.value.trim();
-  if (!text) return;
+  const inp = document.getElementById('dumpInput');
+  const txt = inp.value.trim();
+  if (!txt) return;
   const now = new Date();
-  const time = `Today ${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}`;
-  state.dumps.unshift({ id: Date.now(), text, time });
-  input.value = '';
+  state.dumps.unshift({ id: Date.now(), text: txt, time: `Today ${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}` });
+  inp.value = '';
   save(); renderDumps();
 }
 
@@ -1110,15 +998,11 @@ function deleteDump(id) {
   save(); renderDumps();
 }
 
-// ─── Pipeline ─────────────────────────────────────────────
-const REL_COLORS = {
-  friend: 'rel-friend', family: 'rel-family',
-  cowork: 'rel-cowork', gym: 'rel-gym', other: 'rel-other'
-};
-const AVATAR_COLORS = ['#FFE135','#FF5C00','#FF2D78','#00C2FF','#00E87A','#a78bfa'];
+// ── PIPELINE ──────────────────────────────────────
+const AVATAR_COLORS = ['#FFE135','#FF6B35','#FF2D6B','#38BDF8','#4ADE80','#A78BFA'];
 
-function getInitials(name) {
-  return name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
+function initials(name) {
+  return name.split(' ').map(w => w[0] || '').join('').slice(0,2).toUpperCase();
 }
 
 function renderPipeline() {
@@ -1132,28 +1016,26 @@ function renderPipeline() {
   }
 
   list.innerHTML = state.contacts.map((c, i) => {
-    const stars = '⭐'.repeat(Math.min(c.stars, 5));
     const overdue = c.lastDays > 14;
-    const lastText = c.lastDays === 0 ? 'Today' : c.lastDays === 1 ? 'Yesterday' : `${c.lastDays}d ago`;
+    const last = c.lastDays === 0 ? 'Today' : c.lastDays === 1 ? 'Yesterday' : `${c.lastDays}d ago`;
+    const stars = '⭐'.repeat(Math.min(c.stars, 5));
     const color = AVATAR_COLORS[i % AVATAR_COLORS.length];
-
     return `
-      <div class="pipeline-card">
-        <div class="p-avatar" style="background:${color}">${getInitials(c.name)}</div>
+      <div class="p-card">
+        <div class="p-avatar" style="background:${color}">${initials(c.name)}</div>
         <div class="p-info">
           <div class="p-name">${c.name}</div>
           <div class="p-meta">
-            <span class="p-rel ${REL_COLORS[c.rel]}">${c.rel}</span>
-            <span class="p-last ${overdue ? 'overdue' : ''}">${lastText}</span>
+            <span class="p-rel rel-${c.rel}">${c.rel}</span>
+            <span class="p-last ${overdue ? 'overdue' : ''}">${last}</span>
           </div>
         </div>
-        <div class="p-stars">${stars}</div>
-        <div class="p-actions">
+        <div class="p-right">
+          <div class="p-stars">${stars}</div>
           <div class="p-next">${c.next}</div>
           <button class="p-del" onclick="deleteContact(${c.id})">×</button>
         </div>
-      </div>
-    `;
+      </div>`;
   }).join('');
 }
 
@@ -1179,18 +1061,23 @@ function deleteContact(id) {
   save(); renderPipeline();
 }
 
-// ─── Stats ────────────────────────────────────────────────
+// ── STREAK & BOOK ─────────────────────────────────
+function adjustStreak(delta) {
+  state.streak = Math.max(0, state.streak + delta);
+  save(); renderStats();
+}
+
+function editBook(txt) {
+  const v = txt.trim();
+  if (v) { state.book = v; save(); }
+}
+
 function renderStats() {
   document.getElementById('statStreak').textContent = state.streak;
-  document.getElementById('statBook').textContent = state.currentBook || 'Atomic Habits';
+  document.getElementById('statBook').textContent = state.book || 'Atomic Habits';
 }
 
-function editBook(newText) {
-  const trimmed = newText.trim();
-  if (trimmed) { state.currentBook = trimmed; save(); }
-}
-
-// ─── Init ─────────────────────────────────────────────────
+// ── INIT ──────────────────────────────────────────
 renderTasks();
 renderHabits();
 renderDumps();
