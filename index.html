@@ -10,17 +10,17 @@
 <style>
 /* ── FONTS (system stack for speed) ── */
 :root {
-  --bg: #0f0f0f;
-  --surface: #1a1a1a;
-  --surface2: #222;
-  --border: #2e2e2e;
-  --accent: #e8ff47;
+  --bg: #f0efe8;
+  --surface: #ffffff;
+  --surface2: #f5f4ee;
+  --border: #e0ddd4;
+  --accent: #c8a800;
   --orange: #ff6b35;
   --pink: #ff2d6b;
   --blue: #38bdf8;
-  --text: #f0f0f0;
+  --text: #1a1a1a;
   --muted: #888;
-  --muted2: #555;
+  --muted2: #999;
   --green: #4ade80;
   --red: #f87171;
   --font: -apple-system, 'SF Pro Display', 'Helvetica Neue', sans-serif;
@@ -40,7 +40,7 @@ body {
 
 /* ── HEADER ── */
 .header {
-  padding: 52px 20px 0;
+  padding: 52px 20px 0; background: #f0efe8;
   margin-bottom: 24px;
 }
 
@@ -56,7 +56,7 @@ body {
   font-weight: 800;
   letter-spacing: -0.5px;
   line-height: 1;
-  background: linear-gradient(135deg, var(--accent), var(--orange));
+  background: linear-gradient(135deg, #b8a800, var(--orange));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -82,7 +82,7 @@ body {
   margin-top: 4px;
 }
 
-.tagline strong { color: var(--accent); font-weight: 600; }
+.tagline strong { color: #b8a800; font-weight: 600; }
 
 /* ── STATS ROW ── */
 .stats {
@@ -94,7 +94,7 @@ body {
 }
 
 .stat {
-  background: var(--surface);
+  background: #ffffff;
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 12px 6px 10px;
@@ -122,7 +122,7 @@ body {
   margin-bottom: 3px;
 }
 
-.stat.s1 .stat-val { color: var(--accent); }
+.stat.s1 .stat-val { color: #c8a800; }
 .stat.s2 .stat-val { color: var(--orange); }
 .stat.s3 .stat-val { color: var(--green); }
 .stat.s4 .stat-val { color: var(--blue); font-size: 12px; font-weight: 700; padding-top: 4px; }
@@ -132,7 +132,7 @@ body {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: var(--muted);
+  color: #888;
 }
 
 .streak-btns {
@@ -156,19 +156,19 @@ body {
   transition: color 0.15s;
 }
 
-.streak-btn.plus { color: var(--accent); }
+.streak-btn.plus { color: #c8a800; }
 .streak-btn:active { opacity: 0.6; }
 
 /* ── DIVIDER ── */
 .divider {
   height: 1px;
-  background: var(--border);
+  background: #e0ddd4;
   margin: 0 20px 20px;
 }
 
 /* ── SECTION CARDS ── */
 .section {
-  background: var(--surface);
+  background: #ffffff;
   border: 1px solid var(--border);
   border-radius: 16px;
   margin: 0 16px 14px;
@@ -180,7 +180,7 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 14px 16px 12px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #e8e5dc;
   cursor: pointer;
   user-select: none;
 }
@@ -207,7 +207,7 @@ body {
   flex-shrink: 0;
 }
 
-.icon-yellow { background: rgba(232,255,71,0.15); }
+.icon-yellow { background: rgba(180,150,0,0.12); }
 .icon-orange { background: rgba(255,107,53,0.15); }
 .icon-pink   { background: rgba(255,45,107,0.15); }
 .icon-blue   { background: rgba(56,189,248,0.15); }
@@ -220,7 +220,7 @@ body {
   letter-spacing: 0.3px;
 }
 
-.badge-yellow { background: rgba(232,255,71,0.12); color: var(--accent); border: 1px solid rgba(232,255,71,0.2); }
+.badge-yellow { background: rgba(180,150,0,0.1); color: #a07800; border: 1px solid rgba(180,150,0,0.2); }
 .badge-orange { background: rgba(255,107,53,0.12); color: var(--orange); border: 1px solid rgba(255,107,53,0.2); }
 .badge-pink   { background: rgba(255,45,107,0.12); color: var(--pink); border: 1px solid rgba(255,45,107,0.2); }
 .badge-blue   { background: rgba(56,189,248,0.12); color: var(--blue); border: 1px solid rgba(56,189,248,0.2); }
@@ -287,7 +287,7 @@ body {
   letter-spacing: 0.3px;
 }
 
-.type-prospect { background: rgba(232,255,71,0.1); color: var(--accent); }
+.type-prospect { background: rgba(180,150,0,0.1); color: #a07800; }
 .type-learn    { background: rgba(56,189,248,0.1); color: var(--blue); }
 .type-network  { background: rgba(255,107,53,0.1); color: var(--orange); }
 
@@ -311,7 +311,7 @@ body {
 
 .add-input {
   flex: 1;
-  background: var(--surface2);
+  background: #eeeee8;
   border: 1px solid var(--border);
   border-radius: 9px;
   padding: 9px 12px;
@@ -326,7 +326,7 @@ body {
 .add-input::placeholder { color: var(--muted2); }
 
 .type-sel {
-  background: var(--surface2);
+  background: #eeeee8;
   border: 1px solid var(--border);
   border-radius: 9px;
   padding: 9px 8px;
@@ -339,8 +339,8 @@ body {
 }
 
 .add-btn {
-  background: var(--accent);
-  color: #000;
+  background: #c8a800;
+  color: #fff;
   border: none;
   border-radius: 9px;
   padding: 9px 14px;
@@ -428,7 +428,7 @@ body {
 .h-dot.miss { background: rgba(248,113,113,0.15); border-color: rgba(248,113,113,0.3); color: var(--red); }
 
 .day-label { font-size: 9px; font-weight: 700; color: var(--muted); }
-.day-label.today-lbl { color: var(--accent); }
+.day-label.today-lbl { color: #a07800; }
 
 .streak-num { font-size: 14px; font-weight: 800; color: var(--green); }
 
@@ -457,7 +457,7 @@ body {
 .dump-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
 
 .dump-entry {
-  background: var(--surface2);
+  background: #f5f4ee;
   border: 1px solid var(--border);
   border-left: 3px solid var(--pink);
   border-radius: 9px;
@@ -469,7 +469,7 @@ body {
 
 .dump-content { flex: 1; }
 .dump-time { font-size: 10px; color: var(--muted2); font-weight: 600; text-transform: uppercase; margin-bottom: 3px; }
-.dump-text { font-size: 13px; color: #aaa; line-height: 1.4; }
+.dump-text { font-size: 13px; color: #555; line-height: 1.4; }
 
 .dump-del {
   background: none;
@@ -485,7 +485,7 @@ body {
 
 .dump-input {
   flex: 1;
-  background: var(--surface2);
+  background: #eeeee8;
   border: 1px solid var(--border);
   border-radius: 9px;
   padding: 9px 12px;
@@ -519,7 +519,7 @@ body {
 .pipeline-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
 
 .p-card {
-  background: var(--surface2);
+  background: #f5f4ee;
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 11px 13px;
@@ -577,7 +577,7 @@ body {
 }
 
 .p-form {
-  background: var(--surface2);
+  background: #f5f4ee;
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 12px;
@@ -587,7 +587,7 @@ body {
 }
 
 .p-input, .p-sel {
-  background: var(--bg);
+  background: #eeeee8;
   border: 1px solid var(--border);
   border-radius: 8px;
   padding: 8px 10px;
@@ -604,7 +604,7 @@ body {
 .p-add-btn {
   grid-column: 1 / -1;
   background: var(--blue);
-  color: #000;
+  color: #fff;
   border: none;
   border-radius: 8px;
   padding: 10px;
